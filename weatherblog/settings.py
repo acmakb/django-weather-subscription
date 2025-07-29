@@ -84,7 +84,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "weatherblog",
         "USER": "root",
-        "PASSWORD": "hubing123",
+        "PASSWORD": "yourpassword",
         "HOST": "localhost",
         "PORT": "3306",
         "OPTIONS": {
@@ -153,9 +153,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'  # 使用QQ邮箱SMTP
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = '1480647675@qq.com'  # QQ邮箱
-EMAIL_HOST_PASSWORD = 'qglblrluavuzijcg'  # QQ邮箱授权码
-DEFAULT_FROM_EMAIL = '1480647675@qq.com'  # 发件人邮箱
+EMAIL_HOST_USER = 'your email'  # QQ邮箱
+EMAIL_HOST_PASSWORD = 'your  Auth password'  # QQ邮箱授权码
+DEFAULT_FROM_EMAIL = 'your email'  # 发件人邮箱
 
 # Celery settings
 CELERY_BROKER_URL = 'redis://localhost:6379/0'
@@ -166,7 +166,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
 # Weather API settings
-WEATHER_API_KEY = 'd6a3b63a2d03bba441ed787070a7e308'
+WEATHER_API_KEY = 'apikey'
 WEATHER_API_URL = 'https://restapi.amap.com/v3/weather/weatherInfo'
 
 # Login/Logout URLs
