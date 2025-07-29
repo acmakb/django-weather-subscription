@@ -124,9 +124,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '1480647675@qq.com')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'qglblrluavuzijcg')
-DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', '1480647675@qq.com')
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'your qq@qq.com')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', 'your auth password')
+DEFAULT_FROM_EMAIL = os.getenv('EMAIL_HOST_USER', 'your qq@qq.com')
 
 # Celery settings
 CELERY_BROKER_URL = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
@@ -137,7 +137,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
 # Weather API settings
-WEATHER_API_KEY = os.getenv('WEATHER_API_KEY', 'd6a3b63a2d03bba441ed787070a7e308')
+WEATHER_API_KEY = os.getenv('WEATHER_API_KEY', 'you key')
 WEATHER_API_URL = 'https://restapi.amap.com/v3/weather/weatherInfo'
 
 # 安全配置
