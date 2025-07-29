@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}天气订阅系统{% endblock %}
+
+{% block content %}
+<div class="row align-items-center min-vh-75">
+    <div class="col-lg-6">
+        <div class="text-center text-lg-start">
+            <h1 class="display-4 fw-bold text-white mb-4">
+                <i class="fas fa-cloud-sun me-3"></i>
+                天气订阅系统
+            </h1>
+            <p class="lead text-white-50 mb-4">
+                订阅您关心的城市天气，每天早上6点准时收到详细的天气预报邮件。
+                让您的每一天都从了解天气开始！
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a href="{% url 'accounts:register' %}" class="btn btn-primary btn-lg me-md-2">
+                    <i class="fas fa-user-plus me-2"></i>立即注册
+                </a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-sign-in-alt me-2"></i>用户登录
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="text-center">
+            <div class="card bg-white bg-opacity-10 border-0">
+                <div class="card-body p-5">
+                    <h3 class="text-white mb-4">
+                        <i class="fas fa-star me-2"></i>主要功能
+                    </h3>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <i class="fas fa-map-marker-alt fa-2x text-warning mb-3"></i>
+                                <h5 class="text-white">精准定位</h5>
+                                <p class="text-white-50 small">支持省市区三级城市选择</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <i class="fas fa-envelope fa-2x text-info mb-3"></i>
+                                <h5 class="text-white">邮件推送</h5>
+                                <p class="text-white-50 small">每日定时发送天气预报</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <i class="fas fa-clock fa-2x text-success mb-3"></i>
+                                <h5 class="text-white">准时送达</h5>
+                                <p class="text-white-50 small">每天早上6点准时推送</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <i class="fas fa-cog fa-2x text-danger mb-3"></i>
+                                <h5 class="text-white">灵活管理</h5>
+                                <p class="text-white-50 small">随时添加或取消订阅</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-12">
+        <div class="card bg-white bg-opacity-10 border-0">
+            <div class="card-body p-5 text-center">
+                <h3 class="text-white mb-4">
+                    <i class="fas fa-question-circle me-2"></i>如何使用？
+                </h3>
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <span class="text-white fw-bold fs-4">1</span>
+                            </div>
+                            <h5 class="text-white">注册账户</h5>
+                            <p class="text-white-50 small">使用邮箱注册并验证</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <span class="text-white fw-bold fs-4">2</span>
+                            </div>
+                            <h5 class="text-white">选择城市</h5>
+                            <p class="text-white-50 small">选择要订阅的城市</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <span class="text-white fw-bold fs-4">3</span>
+                            </div>
+                            <h5 class="text-white">设置邮箱</h5>
+                            <p class="text-white-50 small">输入接收天气的邮箱</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+                                <span class="text-white fw-bold fs-4">4</span>
+                            </div>
+                            <h5 class="text-white">接收邮件</h5>
+                            <p class="text-white-50 small">每天早上收到天气预报</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

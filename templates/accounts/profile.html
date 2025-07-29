@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}个人资料 - 天气订阅系统{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-user me-2"></i>个人资料
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">用户名</label>
+                            <p class="form-control-plaintext">{{ user.username }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">邮箱地址</label>
+                            <p class="form-control-plaintext">
+                                {{ user.email }}
+                                {% if user.is_email_verified %}
+                                    <span class="badge bg-success ms-2">
+                                        <i class="fas fa-check me-1"></i>已验证
+                                    </span>
+                                {% else %}
+                                    <span class="badge bg-warning ms-2">
+                                        <i class="fas fa-exclamation-triangle me-1"></i>未验证
+                                    </span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">注册时间</label>
+                            <p class="form-control-plaintext">{{ user.date_joined|date:"Y年m月d日 H:i" }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">最后登录</label>
+                            <p class="form-control-plaintext">
+                                {% if user.last_login %}
+                                    {{ user.last_login|date:"Y年m月d日 H:i" }}
+                                {% else %}
+                                    从未登录
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <a href="{% url 'subscriptions:list' %}" class="btn btn-primary me-2">
+                        <i class="fas fa-bell me-2"></i>管理订阅
+                    </a>
+                    <a href="{% url 'weather:dashboard' %}" class="btn btn-outline-primary">
+                        <i class="fas fa-tachometer-alt me-2"></i>返回仪表板
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

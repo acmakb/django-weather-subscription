@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}添加订阅 - 天气订阅系统{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-plus me-2"></i>添加天气订阅
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" id="subscription-form">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.province.id_for_label }}" class="form-label">
+                            <i class="fas fa-map me-2"></i>{{ form.province.label }}
+                        </label>
+                        {{ form.province }}
+                        {% if form.province.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.province.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.city.id_for_label }}" class="form-label">
+                            <i class="fas fa-city me-2"></i>{{ form.city.label }}
+                        </label>
+                        {{ form.city }}
+                        {% if form.city.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.city.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="{{ form.district.id_for_label }}" class="form-label">
+                            <i class="fas fa-building me-2"></i>{{ form.district.label }}
+                            <small class="text-muted">(可选)</small>
+                        </label>
+                        {{ form.district }}
+                        {% if form.district.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.district.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="{{ form.email.id_for_label }}" class="form-label">
+                            <i class="fas fa-envelope me-2"></i>{{ form.email.label }}
+                        </label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="text-danger small mt-1">
+                                {% for error in form.email.errors %}
+                                    {{ error }}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <div class="form-text">
+                            天气信息将发送到此邮箱，每天早上6点自动发送
+                        </div>
+                    </div>
+
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'subscriptions:list' %}" class="btn btn-outline-secondary me-md-2">
+                            <i class="fas fa-arrow-left me-2"></i>返回
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-bell me-2"></i>添加订阅
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const provinceSelect = document.getElementById('province-select');
+    const citySelect = document.getElementById('city-select');
+    const districtSelect = document.getElementById('district-select');
+
+    // 省份选择变化时加载城市
+    provinceSelect.addEventListener('change', function() {
+        const provinceId = this.value;
+        
+        // 清空城市和区县选择
+        citySelect.innerHTML = '<option value="">请选择城市</option>';
+        districtSelect.innerHTML = '<option value="">请选择区县</option>';
+        
+        if (provinceId) {
+            fetch(`{% url 'subscriptions:get_cities_ajax' %}?parent_id=${provinceId}&level=2`)
+                .then(response => response.json())
+                .then(data => {
+                    data.cities.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.name;
+                        citySelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+
+    // 城市选择变化时加载区县
+    citySelect.addEventListener('change', function() {
+        const cityId = this.value;
+        
+        // 清空区县选择
+        districtSelect.innerHTML = '<option value="">请选择区县</option>';
+        
+        if (cityId) {
+            fetch(`{% url 'subscriptions:get_cities_ajax' %}?parent_id=${cityId}&level=3`)
+                .then(response => response.json())
+                .then(data => {
+                    data.cities.forEach(district => {
+                        const option = document.createElement('option');
+                        option.value = district.id;
+                        option.textContent = district.name;
+                        districtSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% if is_test %}🧪 [测试邮件] {% endif %}{{ city_name }} 天气预报
+{{ current_date }}
+{% if is_test %}
+*** 这是一封测试邮件，用于验证邮件发送功能 ***
+{% endif %}
+===========================================
+
+当前天气：
+温度：{{ current.temperature }}°C
+天气：{{ current.weather }}
+风向：{{ current.winddirection }}
+风力：{{ current.windpower }}
+湿度：{{ current.humidity }}%
+
+===========================================
+
+{% if forecast %}未来天气预报：
+{% for day in forecast %}
+{{ day.date }} {{ day.week }}
+天气：{{ day.dayweather }}{% if day.dayweather != day.nightweather %} 转 {{ day.nightweather }}{% endif %}
+温度：{{ day.nighttemp }}°C ~ {{ day.daytemp }}°C
+风向：{{ day.daywind }} 转 {{ day.nightwind }}
+风力：{{ day.daypower }} 转 {{ day.nightpower }}
+
+{% endfor %}{% endif %}===========================================
+
+此邮件由天气订阅系统自动发送
+数据更新时间：{{ current.reporttime }}
+
+如需取消订阅，请访问：{{ website_url }}

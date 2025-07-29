@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ city_name }} 天气预报</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .test-banner {
+            background: #ff6b6b;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .header p {
+            margin: 10px 0 0 0;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .current-weather {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .temperature {
+            font-size: 48px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 0;
+        }
+        .weather-desc {
+            font-size: 18px;
+            color: #666;
+            margin: 10px 0;
+        }
+        .weather-details {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .detail-item {
+            text-align: center;
+            margin: 10px;
+        }
+        .detail-label {
+            font-size: 12px;
+            color: #999;
+            text-transform: uppercase;
+        }
+        .detail-value {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        .forecast {
+            margin-top: 30px;
+        }
+        .forecast h3 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .forecast-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .forecast-item:last-child {
+            border-bottom: none;
+        }
+        .forecast-date {
+            font-weight: bold;
+            color: #333;
+        }
+        .forecast-weather {
+            color: #666;
+        }
+        .forecast-temp {
+            font-weight: bold;
+            color: #667eea;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        @media (max-width: 480px) {
+            .weather-details {
+                flex-direction: column;
+            }
+            .forecast-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        {% if is_test %}
+        <div class="test-banner">
+            🧪 这是一封测试邮件 - 用于验证邮件发送功能
+        </div>
+        {% endif %}
+        <div class="header">
+            <h1>🌤️ {{ city_name }} 天气预报</h1>
+            <p>{{ current_date }}</p>
+        </div>
+        
+        <div class="content">
+            <!-- 当前天气 -->
+            <div class="current-weather">
+                <div class="temperature">{{ current.temperature }}°C</div>
+                <div class="weather-desc">{{ current.weather }}</div>
+                
+                <div class="weather-details">
+                    <div class="detail-item">
+                        <div class="detail-label">风向</div>
+                        <div class="detail-value">{{ current.winddirection }}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">风力</div>
+                        <div class="detail-value">{{ current.windpower }}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">湿度</div>
+                        <div class="detail-value">{{ current.humidity }}%</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 未来天气预报 -->
+            {% if forecast %}
+            <div class="forecast">
+                <h3>📅 未来天气预报</h3>
+                {% for day in forecast %}
+                <div class="forecast-item">
+                    <div class="forecast-date">
+                        {{ day.date }} {{ day.week }}
+                    </div>
+                    <div class="forecast-weather">
+                        {{ day.dayweather }}
+                        {% if day.dayweather != day.nightweather %}
+                            转{{ day.nightweather }}
+                        {% endif %}
+                    </div>
+                    <div class="forecast-temp">
+                        {{ day.nighttemp }}°C ~ {{ day.daytemp }}°C
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        
+        <div class="footer">
+            <p>
+                📧 此邮件由天气订阅系统自动发送<br>
+                如需取消订阅，请登录 <a href="{{ website_url }}">天气订阅系统</a> 进行管理
+            </p>
+            <p style="margin-top: 15px; font-size: 12px; color: #999;">
+                数据更新时间：{{ current.reporttime }}
+            </p>
+        </div>
+    </div>
+</body>
+</html>

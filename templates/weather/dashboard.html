@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block title %}仪表板 - 天气订阅系统{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h2 class="text-white mb-4">
+            <i class="fas fa-tachometer-alt me-2"></i>
+            欢迎回来，{{ user.username }}！
+        </h2>
+    </div>
+</div>
+
+<!-- 统计卡片 -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-bell fa-2x text-primary mb-3"></i>
+                <h4 class="card-title">{{ total_subscriptions }}</h4>
+                <p class="card-text text-muted">活跃订阅</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-envelope fa-2x text-success mb-3"></i>
+                <h4 class="card-title">每日推送</h4>
+                <p class="card-text text-muted">早上6点</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="fas fa-clock fa-2x text-info mb-3"></i>
+                <h4 class="card-title">实时更新</h4>
+                <p class="card-text text-muted">天气数据</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 快速操作 -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-bolt me-2"></i>快速操作
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2 d-md-flex">
+                    <a href="{% url 'subscriptions:add' %}" class="btn btn-primary me-md-2">
+                        <i class="fas fa-plus me-2"></i>添加订阅
+                    </a>
+                    <a href="{% url 'subscriptions:list' %}" class="btn btn-outline-primary me-md-2">
+                        <i class="fas fa-list me-2"></i>管理订阅
+                    </a>
+                    <a href="{% url 'accounts:profile' %}" class="btn btn-outline-secondary">
+                        <i class="fas fa-user me-2"></i>个人资料
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 天气信息 -->
+{% if weather_data %}
+<div class="row">
+    <div class="col-12">
+        <h4 class="text-white mb-3">
+            <i class="fas fa-cloud-sun me-2"></i>当前天气
+        </h4>
+    </div>
+    {% for item in weather_data %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h6 class="mb-0">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    {{ item.weather.city_name }}
+                </h6>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <div class="text-center">
+                            <h2 class="text-primary mb-0">{{ item.weather.current.temperature }}°C</h2>
+                            <p class="text-muted mb-0">{{ item.weather.current.weather }}</p>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="small text-muted">
+                            <p class="mb-1">
+                                <i class="fas fa-wind me-1"></i>
+                                {{ item.weather.current.winddirection }} {{ item.weather.current.windpower }}
+                            </p>
+                            <p class="mb-1">
+                                <i class="fas fa-tint me-1"></i>
+                                湿度 {{ item.weather.current.humidity }}%
+                            </p>
+                            <p class="mb-0">
+                                <i class="fas fa-clock me-1"></i>
+                                {{ item.weather.current.reporttime }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if item.weather.forecast %}
+                <hr>
+                <div class="small">
+                    <h6 class="text-muted mb-2">未来3天预报</h6>
+                    {% for forecast in item.weather.forecast|slice:":3" %}
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span>{{ forecast.date }}</span>
+                        <span>{{ forecast.dayweather }}</span>
+                        <span class="text-primary">{{ forecast.nighttemp }}°~{{ forecast.daytemp }}°</span>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-transparent">
+                <small class="text-muted">
+                    <i class="fas fa-envelope me-1"></i>
+                    推送至：{{ item.subscription.email }}
+                </small>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-cloud-meatball fa-3x text-muted mb-3"></i>
+                <h4 class="text-muted mb-3">暂无天气数据</h4>
+                <p class="text-muted mb-4">您还没有订阅任何城市的天气信息</p>
+                <a href="{% url 'subscriptions:add' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>立即订阅
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
